@@ -3,3 +3,9 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        # Types\* (Task 5) don't exist yet; Routes only refers to them as ::class
+        # strings, which is valid PHP without the classes. Remove once Task 5 adds them.
+        -
+            identifier: class.notFound
+            path: src/Routes.php

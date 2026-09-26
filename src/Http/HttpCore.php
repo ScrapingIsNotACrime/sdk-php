@@ -12,6 +12,7 @@ use ScrapingIsNotACrime\Config;
 use ScrapingIsNotACrime\Exception\ApiException;
 use ScrapingIsNotACrime\Exception\ConnectionException;
 use ScrapingIsNotACrime\Exception\ScrapingIsNotACrimeException;
+use ScrapingIsNotACrime\Page;
 use ScrapingIsNotACrime\RetryDelay;
 use ScrapingIsNotACrime\Version;
 
@@ -56,6 +57,37 @@ final class HttpCore
     public function getObject(Route $route): array
     {
         return self::object($this->get($route));
+    }
+
+    /** @return Page<object, object> */
+    public function page(PageSpec $spec): Page
+    {
+        $raw = self::object($this->get($spec->route()));
+        $dataClass = $spec->dataClass;
+        /** @var object $data */
+        $data = $dataClass::fromArray($raw);
+        $items = $data->{$spec->itemsProperty};
+        /** @var list<object> $items the typed page's items property, read dynamically */
+        $items = is_array($items) ? array_values($items) : [];
+        $hasMore = ($raw['has_more'] ?? false) === true;
+
+        if ($spec->kind === 'cursor') {
+            $cursor = is_string($raw['next_cursor'] ?? null) ? $raw['next_cursor'] : '';
+            $more = $hasMore && $cursor !== '' && $items !== [];
+            $next = $more ? $spec->advance($cursor, null) : null;
+        } else {
+            $more = ($spec->maxPage > 0 ? $spec->page < $spec->maxPage : $hasMore) && $items !== [];
+            $next = $more ? $spec->advance(null, $spec->page + 1) : null;
+        }
+
+        return new Page(
+            $items,
+            $next !== null,
+            $next?->cursor,
+            $next !== null && $spec->kind === 'numbered' ? $next->page : null,
+            $data,
+            $next === null ? null : fn(): Page => $this->page($next),
+        );
     }
 
     /** @return array<string, mixed> */
