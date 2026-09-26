@@ -67,7 +67,7 @@ final class HttpCore
         /** @var object $data */
         $data = $dataClass::fromArray($raw);
         $items = $data->{$spec->itemsProperty};
-        /** @var list<object> $items the typed page's items property, read dynamically */
+        /** @var list<object> $items the typed page's items property (a list<Types\*> on every real page class), read dynamically */
         $items = is_array($items) ? array_values($items) : [];
         $hasMore = ($raw['has_more'] ?? false) === true;
 

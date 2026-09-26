@@ -6,7 +6,7 @@ namespace ScrapingIsNotACrime\Tests\Support;
 
 final readonly class ItemPage
 {
-    /** @param list<array<string, mixed>> $items */
+    /** @param list<Item> $items */
     public function __construct(public array $items) {}
 
     /** @param array<string, mixed> $data */
@@ -14,7 +14,9 @@ final readonly class ItemPage
     {
         $items = $data['items'] ?? [];
 
-        // @phpstan-ignore argument.type (array_filter('is_array') keeps a broader array-key type than declared)
-        return new self(is_array($items) ? array_values(array_filter($items, 'is_array')) : []);
+        return new self(is_array($items) ? array_map(
+            static fn(mixed $item): Item => Item::fromArray(is_array($item) ? $item : []),
+            array_values($items),
+        ) : []);
     }
 }

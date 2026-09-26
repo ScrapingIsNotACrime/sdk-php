@@ -11,7 +11,9 @@ use ScrapingIsNotACrime\Config;
 use ScrapingIsNotACrime\Exception\NotFoundException;
 use ScrapingIsNotACrime\Http\PageSpec;
 use ScrapingIsNotACrime\Http\Route;
+use ScrapingIsNotACrime\Page;
 use ScrapingIsNotACrime\Tests\Support\Fake;
+use ScrapingIsNotACrime\Tests\Support\Item;
 use ScrapingIsNotACrime\Tests\Support\ItemPage;
 
 final class PageTest extends TestCase
@@ -58,6 +60,7 @@ final class PageTest extends TestCase
             '{"data":{"items":[{"id":3}],"has_more":false,"next_cursor":""}}',
         ]);
         $core = Fake::core($client);
+        /** @var Page<Item, ItemPage> $page */
         $page = $core->page(self::spec(query: Route::q('limit', 2)));
 
         self::assertCount(2, $page->items);
@@ -67,8 +70,7 @@ final class PageTest extends TestCase
 
         $ids = [];
         foreach ($page as $item) {
-            // @phpstan-ignore offsetAccess.nonOffsetAccessible (ItemPage stores its items as arrays, not objects)
-            $ids[] = $item['id'];
+            $ids[] = $item->id;
         }
         self::assertSame([1, 2, 3], $ids);
 
@@ -94,6 +96,7 @@ final class PageTest extends TestCase
             '{"data":{"items":[{"id":2}],"has_more":false}}',
         ]);
         $core = Fake::core($client);
+        /** @var Page<Item, ItemPage> $page */
         $page = $core->page(self::spec(path: '/n', query: Route::q('limit', 1), kind: 'numbered', page: 0));
 
         self::assertTrue($page->hasMore);
@@ -104,8 +107,7 @@ final class PageTest extends TestCase
         self::assertNotNull($next);
         self::assertFalse($next->hasMore);
         self::assertNull($next->nextPage);
-        // @phpstan-ignore offsetAccess.nonOffsetAccessible (see the note in testCursorPagination)
-        self::assertSame(2, $next->items[0]['id']);
+        self::assertSame(2, $next->items[0]->id);
 
         $uris = self::requestUris($client);
         self::assertSame(Config::DEFAULT_BASE_URL . '/n?limit=1&page=0', $uris[0]);
@@ -175,11 +177,11 @@ final class PageTest extends TestCase
             '{"data":{"items":[{"id":1},{"id":2}],"has_more":true,"next_cursor":"c2"}}',
             '{"data":{"items":[{"id":3}],"has_more":false,"next_cursor":""}}',
         ]);
+        /** @var Page<Item, ItemPage> $page */
         $page = Fake::core($client)->page(self::spec());
 
         $all = iterator_to_array($page);
-        // @phpstan-ignore argument.type (see the note in testCursorPagination)
-        self::assertSame([1, 2, 3], array_map(static fn(array $item): mixed => $item['id'], $all));
+        self::assertSame([1, 2, 3], array_map(static fn(Item $item): int => $item->id, $all));
         self::assertSame([0, 1, 2], array_keys($all));
     }
 }
