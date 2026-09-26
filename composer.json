@@ -1,0 +1,48 @@
+{
+    "name": "scrapingisnotacrime/sdk",
+    "description": "PHP client for the ScrapingIsNotACrime API: public data from Instagram, TikTok, YouTube, the App Store, GitHub, Hacker News, Bluesky, Twitch and Linktree.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["scraping", "instagram", "tiktok", "youtube", "github", "hacker-news", "bluesky", "twitch", "linktree", "app-store", "psr-18"],
+    "homepage": "https://scrapingisnotacrime.com",
+    "support": {
+        "issues": "https://github.com/ScrapingIsNotACrime/sdk-php/issues",
+        "source": "https://github.com/ScrapingIsNotACrime/sdk-php"
+    },
+    "require": {
+        "php": "^8.2",
+        "php-http/discovery": "^1.19",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "guzzlehttp/guzzle": "^7.9",
+        "nyholm/psr7": "^1.8",
+        "php-http/mock-client": "^1.6",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "symfony/http-client": "^6.4 || ^7.0"
+    },
+    "suggest": {
+        "symfony/http-client": "A PSR-18 client the SDK configures with its timeout and without redirects",
+        "guzzlehttp/guzzle": "Alternative PSR-18 client the SDK can configure"
+    },
+    "autoload": {
+        "psr-4": { "ScrapingIsNotACrime\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "ScrapingIsNotACrime\\Tests\\": "tests/" }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": { "php-http/discovery": false }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse --memory-limit=1G",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix"
+    }
+}
