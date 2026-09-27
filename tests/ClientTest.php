@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ScrapingIsNotACrime\Tests;
 
+use Http\Discovery\Exception\NotFoundException as DiscoveryNotFoundException;
 use Http\Mock\Client as MockClient;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use ScrapingIsNotACrime\Client;
 use ScrapingIsNotACrime\Config;
@@ -85,5 +87,21 @@ final class ClientTest extends TestCase
     {
         $client = new Client('sinac_test');
         self::assertInstanceOf(Client::class, $client);
+    }
+
+    public function testMissingRequestFactoryThrowsLogicExceptionWithNyholmHint(): void
+    {
+        $find = static function (): RequestFactoryInterface {
+            throw new DiscoveryNotFoundException('no request factory found');
+        };
+
+        try {
+            Client::requestFactory(null, $find);
+            self::fail('did not throw');
+        } catch (\LogicException $e) {
+            self::assertInstanceOf(DiscoveryNotFoundException::class, $e->getPrevious());
+            self::assertStringContainsString('nyholm/psr7', $e->getMessage());
+            self::assertStringContainsString('requestFactory', $e->getMessage());
+        }
     }
 }

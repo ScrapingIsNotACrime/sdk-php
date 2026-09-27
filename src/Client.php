@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ScrapingIsNotACrime;
 
+use Http\Discovery\Exception\NotFoundException as DiscoveryNotFoundException;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -42,7 +43,7 @@ final class Client
         $http = new HttpCore(
             $config,
             $httpClient ?? HttpClientFactory::create($timeout),
-            $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory(),
+            self::requestFactory($requestFactory),
         );
         $this->instagram = new Resources\Instagram($http);
         $this->tiktok = new Resources\Tiktok($http);
@@ -53,5 +54,27 @@ final class Client
         $this->bluesky = new Resources\Bluesky($http);
         $this->twitch = new Resources\Twitch($http);
         $this->linktree = new Resources\Linktree($http);
+    }
+
+    /**
+     * @internal exposed for testing the discovery-failure path
+     *
+     * @param \Closure(): RequestFactoryInterface|null $find forces the discovery call (tests)
+     */
+    public static function requestFactory(?RequestFactoryInterface $given, ?\Closure $find = null): RequestFactoryInterface
+    {
+        if ($given !== null) {
+            return $given;
+        }
+        $find ??= static fn(): RequestFactoryInterface => Psr17FactoryDiscovery::findRequestFactory();
+        try {
+            return $find();
+        } catch (DiscoveryNotFoundException $e) {
+            throw new \LogicException(
+                'No PSR-17 request factory found: run "composer require nyholm/psr7", or pass requestFactory.',
+                0,
+                $e,
+            );
+        }
     }
 }

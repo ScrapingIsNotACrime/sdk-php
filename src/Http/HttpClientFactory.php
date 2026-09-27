@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ScrapingIsNotACrime\Http;
 
-use Http\Discovery\Exception\NotFoundException;
+use Http\Discovery\Exception\NotFoundException as DiscoveryNotFoundException;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -38,7 +38,7 @@ final class HttpClientFactory
         try {
             // The discovered client keeps its own timeout and redirect settings.
             return Psr18ClientDiscovery::find();
-        } catch (NotFoundException $e) {
+        } catch (DiscoveryNotFoundException $e) {
             throw new \LogicException(
                 'No PSR-18 HTTP client found: run "composer require symfony/http-client" (or guzzlehttp/guzzle), or pass httpClient.',
                 0,
