@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** A highlight reel's summary, as listed on a profile. */
 final readonly class InstagramHighlightSummary implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $title,

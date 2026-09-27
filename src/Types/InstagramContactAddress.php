@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** A profile's structured business address, from the contact endpoint. */
 final readonly class InstagramContactAddress implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $streetAddress,
         public string $zipCode,

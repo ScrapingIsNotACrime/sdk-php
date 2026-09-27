@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** A repository, as returned by the profile repositories list, search, and trending endpoints. */
 final readonly class GithubRepository implements FromArray
 {
-    /** @param list<string> $topics */
+    /**
+     * @internal
+     *
+     * @param list<string> $topics
+     */
     public function __construct(
         public string $name,
         public string $fullName,

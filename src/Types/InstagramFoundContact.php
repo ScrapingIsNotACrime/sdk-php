@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** An email address or phone number found written into a profile's bio. */
 final readonly class InstagramFoundContact implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $value,
         public string $source,

@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** A post, as returned by the paged timeline and the highlight-content endpoints. */
 final readonly class InstagramMedia implements FromArray
 {
-    /** @param list<mixed> $previewComments */
+    /**
+     * @internal
+     *
+     * @param list<mixed> $previewComments
+     */
     public function __construct(
         public string $id,
         public string $shortcode,

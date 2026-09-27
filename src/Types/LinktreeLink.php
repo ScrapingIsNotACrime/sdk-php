@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** One link in a Linktree profile. */
 final readonly class LinktreeLink implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $title,

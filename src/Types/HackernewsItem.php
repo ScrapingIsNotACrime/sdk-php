@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /hackernews/items/{id} */
 final readonly class HackernewsItem implements FromArray
 {
-    /** @param list<HackernewsComment> $comments */
+    /**
+     * @internal
+     *
+     * @param list<HackernewsComment> $comments
+     */
     public function __construct(
         public int $id,
         public string $type,

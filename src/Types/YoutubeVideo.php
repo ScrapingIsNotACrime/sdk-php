@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** One video in a channel's video list. */
 final readonly class YoutubeVideo implements FromArray
 {
-    /** @param list<string> $metadataText */
+    /**
+     * @internal
+     *
+     * @param list<string> $metadataText
+     */
     public function __construct(
         public string $id,
         public string $title,

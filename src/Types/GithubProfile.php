@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /github/profiles/{handle} */
 final readonly class GithubProfile implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $username,
         public int $id,

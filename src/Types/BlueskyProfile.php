@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /bluesky/profiles/{handle} */
 final readonly class BlueskyProfile implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $did,
         public string $handle,

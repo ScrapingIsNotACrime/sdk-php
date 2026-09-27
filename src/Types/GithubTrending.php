@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /github/trending/repositories */
 final readonly class GithubTrending implements FromArray
 {
-    /** @param list<GithubRepository> $items */
+    /**
+     * @internal
+     *
+     * @param list<GithubRepository> $items
+     */
     public function __construct(
         public array $items,
         public int $total,

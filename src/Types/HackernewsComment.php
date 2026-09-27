@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** A comment inside an item's comment tree; replies nest recursively. */
 final readonly class HackernewsComment implements FromArray
 {
-    /** @param list<HackernewsComment> $replies */
+    /**
+     * @internal
+     *
+     * @param list<HackernewsComment> $replies
+     */
     public function __construct(
         public int $id,
         public string $author,

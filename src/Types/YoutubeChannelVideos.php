@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /youtube/channel/{handle}/videos */
 final readonly class YoutubeChannelVideos implements FromArray
 {
-    /** @param list<YoutubeVideo> $videos */
+    /**
+     * @internal
+     *
+     * @param list<YoutubeVideo> $videos
+     */
     public function __construct(
         public YoutubeChannel $channel,
         public array $videos,

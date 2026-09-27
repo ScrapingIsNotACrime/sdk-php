@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/reels/{shortcode} — clipsMusicAttributionInfo is null for original audio. */
 final readonly class InstagramReel implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $shortcode,

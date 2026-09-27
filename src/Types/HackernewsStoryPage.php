@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /hackernews/feeds/{feed}, /hackernews/search, and /hackernews/users/{username}/submissions */
 final readonly class HackernewsStoryPage implements FromArray
 {
-    /** @param list<HackernewsStory> $items */
+    /**
+     * @internal
+     *
+     * @param list<HackernewsStory> $items
+     */
     public function __construct(
         public array $items,
         public int $total,

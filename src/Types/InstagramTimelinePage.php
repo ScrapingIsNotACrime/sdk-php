@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/profile/{username}/timeline */
 final readonly class InstagramTimelinePage implements FromArray
 {
-    /** @param list<InstagramMedia> $medias */
+    /**
+     * @internal
+     *
+     * @param list<InstagramMedia> $medias
+     */
     public function __construct(
         public array $medias,
         public bool $hasMore,

@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /hackernews/users/{username}/comments — same page envelope as the other listings. */
 final readonly class HackernewsUserCommentPage implements FromArray
 {
-    /** @param list<HackernewsUserComment> $items */
+    /**
+     * @internal
+     *
+     * @param list<HackernewsUserComment> $items
+     */
     public function __construct(
         public array $items,
         public int $total,

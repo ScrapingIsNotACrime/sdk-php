@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /appstore/reviews */
 final readonly class AppstoreReviewPage implements FromArray
 {
-    /** @param list<AppstoreReview> $reviews */
+    /**
+     * @internal
+     *
+     * @param list<AppstoreReview> $reviews
+     */
     public function __construct(
         public string $appId,
         public string $country,

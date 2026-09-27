@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** Music attribution for a video/reel; null for original audio. */
 final readonly class InstagramClipsMusicAttribution implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $artistName,
         public string $songName,

@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** A comment in a user's comment listing; unlike item-tree nodes, `replies` may be absent. */
 final readonly class HackernewsUserComment implements FromArray
 {
-    /** @param list<HackernewsComment> $replies */
+    /**
+     * @internal
+     *
+     * @param list<HackernewsComment> $replies
+     */
     public function __construct(
         public int $id,
         public string $author,

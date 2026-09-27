@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** One video in a channel's published videos list. */
 final readonly class TwitchVideo implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $title,

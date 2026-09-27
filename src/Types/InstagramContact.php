@@ -8,6 +8,8 @@ namespace ScrapingIsNotACrime\Types;
 final readonly class InstagramContact implements FromArray
 {
     /**
+     * @internal
+     *
      * @param list<InstagramFoundContact> $emailsFound
      * @param list<InstagramFoundContact> $phonesFound
      */

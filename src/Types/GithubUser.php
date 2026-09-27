@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** A user in a followers/following page. */
 final readonly class GithubUser implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $username,
         public int $id,

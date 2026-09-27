@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** A story, as returned by feeds, search, and a user's submissions. */
 final readonly class HackernewsStory implements FromArray
 {
+    /** @internal */
     public function __construct(
         public int $id,
         public string $title,

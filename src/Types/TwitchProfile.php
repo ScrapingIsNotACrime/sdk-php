@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /twitch/profiles/{handle} */
 final readonly class TwitchProfile implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $login,

@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /linktree/profiles/{handle} */
 final readonly class LinktreeProfile implements FromArray
 {
-    /** @param list<LinktreeLink> $links */
+    /**
+     * @internal
+     *
+     * @param list<LinktreeLink> $links
+     */
     public function __construct(
         public string $username,
         public string $title,

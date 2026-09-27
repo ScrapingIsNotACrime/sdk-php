@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /tiktok/video/{videoId} — no documented example yet; refined from the smoke test. */
 final readonly class TiktokVideo implements FromArray
 {
-    /** @param array<string, mixed> $extra */
+    /**
+     * @internal
+     *
+     * @param array<string, mixed> $extra
+     */
     public function __construct(
         public ?string $id,
         public array $extra,

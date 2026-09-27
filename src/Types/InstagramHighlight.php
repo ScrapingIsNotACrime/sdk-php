@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/highlights/{highlightId} */
 final readonly class InstagramHighlight implements FromArray
 {
-    /** @param list<InstagramMedia> $items */
+    /**
+     * @internal
+     *
+     * @param list<InstagramMedia> $items
+     */
     public function __construct(
         public string $id,
         public string $title,

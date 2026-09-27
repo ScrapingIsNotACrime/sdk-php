@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/profile/{username} */
 final readonly class InstagramProfile implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $fbid,

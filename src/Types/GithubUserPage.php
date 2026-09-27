@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /github/profiles/{handle}/followers and /following */
 final readonly class GithubUserPage implements FromArray
 {
-    /** @param list<GithubUser> $items */
+    /**
+     * @internal
+     *
+     * @param list<GithubUser> $items
+     */
     public function __construct(
         public array $items,
         /** Always null: GitHub's REST API does not report a count for this collection. */

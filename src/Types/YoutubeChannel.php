@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** The channel block in a channel-videos response. */
 final readonly class YoutubeChannel implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $title,
         public string $description,

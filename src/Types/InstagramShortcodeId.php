@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/media/{shortcode}/id and /instagram/media/id/{mediaId} */
 final readonly class InstagramShortcodeId implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $shortcode,
         public string $mediaId,

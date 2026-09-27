@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/media/{shortcode}/download — assets[0] is always the best primary asset. */
 final readonly class InstagramDownload implements FromArray
 {
-    /** @param list<InstagramDownloadAsset> $assets */
+    /**
+     * @internal
+     *
+     * @param list<InstagramDownloadAsset> $assets
+     */
     public function __construct(
         public string $shortcode,
         public string $type,

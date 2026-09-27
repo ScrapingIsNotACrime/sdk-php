@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** One customer review of an app. */
 final readonly class AppstoreReview implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $author,

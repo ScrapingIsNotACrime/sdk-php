@@ -5,10 +5,18 @@ Official PHP SDK for the [ScrapingIsNotACrime](https://scrapingisnotacrime.com) 
 ## Install
 
 ```bash
-composer require scrapingisnotacrime/sdk symfony/http-client
+composer require scrapingisnotacrime/sdk
 ```
 
-The SDK talks over any [PSR-18](https://www.php-fig.org/psr/psr-18/) HTTP client. `symfony/http-client` above is a recommendation, not a hard requirement: with either Symfony HttpClient or Guzzle (`guzzlehttp/guzzle`) installed, the SDK builds its own client from whichever one it finds and configures its timeout and turns off redirects on it — but only for that client. Without either installed, the SDK falls back to whatever PSR-18 client [`php-http/discovery`](https://github.com/php-http/discovery) finds already in your project, and that client's own timeout and redirect behavior apply instead (see [Bring your own client](#bring-your-own-client) to configure one yourself). If no PSR-18 client exists at all, the constructor throws with a `composer require` hint.
+The SDK talks over any [PSR-18](https://www.php-fig.org/psr/psr-18/) HTTP client and any [PSR-17](https://www.php-fig.org/psr/psr-17/) request factory. It declares those as virtual `*-implementation` requirements, so Composer's [`php-http/discovery`](https://github.com/php-http/discovery) plugin installs a PSR-18 client and PSR-17 factories for you if your project has none yet — Composer asks once whether to allow the plugin to run; answer yes. With either Symfony HttpClient or Guzzle (`guzzlehttp/guzzle`) present, the SDK builds its own client from whichever one it finds and configures its timeout and turns off redirects on it — but only for that client. With some other PSR-18 client already in your project, the SDK uses it as found via discovery, and that client's own timeout and redirect behavior apply instead (see [Bring your own client](#bring-your-own-client) to configure one yourself).
+
+The explicit alternative, if you'd rather pick the implementation yourself:
+
+```bash
+composer require scrapingisnotacrime/sdk symfony/http-client nyholm/psr7
+```
+
+If no PSR-18 client or no PSR-17 factory can be found at all, the constructor throws `\LogicException` with a `composer require` hint.
 
 Requires PHP 8.2+.
 
@@ -92,7 +100,7 @@ $client = new ScrapingIsNotACrimeClient(
 
 ## Methods
 
-`Client` groups its methods under a property per platform: `$client->instagram`, `$client->tiktok`, `$client->youtube`, `$client->appstore`, `$client->github`, `$client->hackernews`, `$client->bluesky`, `$client->twitch`, `$client->linktree`. Every method returns the response envelope's `data`, decoded into a typed `Types\*` object; a method marked `Page` returns a `Page` instead (see [Pagination](#pagination)).
+`Client` groups its methods under a property per platform: `$client->instagram`, `$client->tiktok`, `$client->youtube`, `$client->appstore`, `$client->github`, `$client->hackernews`, `$client->bluesky`, `$client->twitch`, `$client->linktree`. Every method returns the response envelope's `data`, decoded into a typed `Types\*` object; a method marked `Page` returns a `Page` instead (see [Pagination](#pagination)). Response objects are built by the SDK; construct them with `X::fromArray()` if you need one in tests — constructor parameters may be reordered in minor releases.
 
 | Namespace | Method | Arguments | Route | Page |
 |---|---|---|---|---|
@@ -144,7 +152,7 @@ final class Page implements \IteratorAggregate
     public readonly bool $hasMore;
     public readonly ?string $nextCursor; // cursor endpoints; null when there is none
     public readonly ?int $nextPage;      // page-number endpoints; null when there is none
-    public readonly object $data;        // the untouched response of this page
+    public readonly object $data;        // this page's typed page object (e.g. GithubUserPage), with fields like ->total
 
     public function next(): ?self; // fetches the following page; null when there is none
     public function getIterator(): \Generator; // yields items across pages, lazily
@@ -180,11 +188,11 @@ foreach ($page as $user) {
 }
 ```
 
-`$page->data` gives you the untouched response of the current page, so fields such as a total count stay reachable.
+`$page->data` is the current page's typed page object (e.g. `GithubUserPage`), so fields such as `->total` stay reachable.
 
 ## Errors
 
-Every failure the SDK raises is an exception under `ScrapingIsNotACrime\Exception`, all extending `ScrapingIsNotACrimeException` (itself a `\RuntimeException`) with `->status` (the HTTP status, or `null` for network errors) and `->requestId` (the `X-Request-Id` header, when the API sends one). An invalid argument — a bad path segment, an unrecognized enum string, an out-of-range option — throws `\InvalidArgumentException` instead, before any request is made.
+Every failure the SDK raises is an exception under `ScrapingIsNotACrime\Exception`, all extending `ScrapingIsNotACrimeException` (itself a `\RuntimeException`) with `->status` (the HTTP status, or `null` for network errors) and `->requestId` (the `X-Request-Id` header, when the API sends one). An invalid argument — a bad path segment or an unrecognized enum string — throws `\InvalidArgumentException` instead, before any request is made. Numeric options such as `limit`, `count` or `page` are not range-checked client-side: an out-of-range value is sent to the API, which answers with a 400 and the SDK raises `BadRequestException`.
 
 | Class | Status | Retried |
 |---|---|---|

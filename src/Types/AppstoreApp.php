@@ -8,6 +8,8 @@ namespace ScrapingIsNotACrime\Types;
 final readonly class AppstoreApp implements FromArray
 {
     /**
+     * @internal
+     *
      * @param list<string> $genres
      * @param list<string> $screenshots
      */

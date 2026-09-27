@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** One post in a profile's posts feed. */
 final readonly class BlueskyPost implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $uri,
         public string $cid,

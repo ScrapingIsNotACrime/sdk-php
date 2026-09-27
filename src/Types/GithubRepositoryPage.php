@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /github/profiles/{handle}/repositories */
 final readonly class GithubRepositoryPage implements FromArray
 {
-    /** @param list<GithubRepository> $items */
+    /**
+     * @internal
+     *
+     * @param list<GithubRepository> $items
+     */
     public function __construct(
         public array $items,
         /** Always null: GitHub's REST API does not report a count for this collection. */

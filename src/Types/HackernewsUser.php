@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /hackernews/users/{username} */
 final readonly class HackernewsUser implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $username,
         public int $karma,

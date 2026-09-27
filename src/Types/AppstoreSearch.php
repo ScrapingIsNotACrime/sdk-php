@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /appstore/search */
 final readonly class AppstoreSearch implements FromArray
 {
-    /** @param list<AppstoreApp> $apps */
+    /**
+     * @internal
+     *
+     * @param list<AppstoreApp> $apps
+     */
     public function __construct(
         public string $term,
         public string $country,

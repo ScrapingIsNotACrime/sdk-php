@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** A channel's most recent broadcast. */
 final readonly class TwitchBroadcast implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $title,
         public string $startedAt,

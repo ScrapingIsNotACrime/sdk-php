@@ -10,6 +10,7 @@ namespace ScrapingIsNotACrime\Types;
  */
 final readonly class InstagramMediaDetail implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $shortcode,

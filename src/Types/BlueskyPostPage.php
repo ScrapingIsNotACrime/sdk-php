@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /bluesky/profiles/{handle}/posts */
 final readonly class BlueskyPostPage implements FromArray
 {
-    /** @param list<BlueskyPost> $posts */
+    /**
+     * @internal
+     *
+     * @param list<BlueskyPost> $posts
+     */
     public function __construct(
         public array $posts,
         public ?string $nextCursor,

@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** One downloadable asset behind a post, reel, or carousel. */
 final readonly class InstagramDownloadAsset implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $kind,
         public int $index,

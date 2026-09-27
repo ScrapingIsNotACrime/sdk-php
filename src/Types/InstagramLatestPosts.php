@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /instagram/profile/{username}/timeline/latest */
 final readonly class InstagramLatestPosts implements FromArray
 {
-    /** @param list<InstagramLatestPostMedia> $medias */
+    /**
+     * @internal
+     *
+     * @param list<InstagramLatestPostMedia> $medias
+     */
     public function __construct(
         public int $count,
         public int $latestCount,

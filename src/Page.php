@@ -15,6 +15,8 @@ namespace ScrapingIsNotACrime;
 final class Page implements \IteratorAggregate
 {
     /**
+     * @internal
+     *
      * @param list<T> $items
      * @param R $data
      * @param (\Closure(): Page<T, R>)|null $fetchNext null when there is no next page

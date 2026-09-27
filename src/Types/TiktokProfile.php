@@ -7,6 +7,7 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /tiktok/profile/{username} */
 final readonly class TiktokProfile implements FromArray
 {
+    /** @internal */
     public function __construct(
         public string $id,
         public string $username,

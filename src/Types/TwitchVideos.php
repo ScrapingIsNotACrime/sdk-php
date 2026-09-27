@@ -7,7 +7,11 @@ namespace ScrapingIsNotACrime\Types;
 /** GET /twitch/profiles/{handle}/videos */
 final readonly class TwitchVideos implements FromArray
 {
-    /** @param list<TwitchVideo> $videos */
+    /**
+     * @internal
+     *
+     * @param list<TwitchVideo> $videos
+     */
     public function __construct(
         public array $videos,
         public int $count,
