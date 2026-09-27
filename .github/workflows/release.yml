@@ -1,0 +1,41 @@
+name: Release
+
+# Runs on every push to main (every merged PR). semantic-release reads the
+# commits since the last v* tag: fix -> patch, feat -> minor, and while the SDK
+# is 0.x a breaking change is also a minor (see .releaserc.json). docs, chore,
+# test, ci and refactor commits alone release nothing. The tag is the release:
+# Packagist's GitHub hook picks it up and publishes the new version.
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the v* tag and the GitHub Release
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: none
+      - run: composer update --no-interaction --no-progress --prefer-dist
+      - run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress && vendor/bin/phpunit --testsuite unit
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: semantic-release
+        run: >-
+          npx --yes
+          -p semantic-release@25
+          -p conventional-changelog-conventionalcommits@9
+          semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
