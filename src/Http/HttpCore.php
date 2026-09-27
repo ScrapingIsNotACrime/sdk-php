@@ -152,7 +152,19 @@ final class HttpCore
 
     private static function snippet(string $body): string
     {
-        $flat = trim((string) preg_replace('/\s+/u', ' ', $body));
+        $unicode = preg_replace('/\s+/u', ' ', $body);
+        if ($unicode === null) {
+            // Invalid UTF-8: fall back to byte-oriented whitespace collapsing
+            // and truncate by raw byte length instead of by codepoint.
+            $flat = trim((string) preg_replace('/\s+/', ' ', $body));
+            if ($flat === '') {
+                return 'empty response body';
+            }
+
+            return strlen($flat) > 200 ? substr($flat, 0, 200) . '…' : $flat;
+        }
+
+        $flat = trim($unicode);
         if ($flat === '') {
             return 'empty response body';
         }

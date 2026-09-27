@@ -34,6 +34,8 @@ final class ConfigTest extends TestCase
         yield 'missing key' => [null, null, 30.0, 2];
         yield 'blank key' => ['   ', null, 30.0, 2];
         yield 'zero timeout' => ['k', null, 0.0, 2];
+        yield 'nan timeout' => ['k', null, NAN, 2];
+        yield 'infinite timeout' => ['k', null, INF, 2];
         yield 'negative retries' => ['k', null, 30.0, -1];
         yield 'relative url' => ['k', 'api.example.com/v1', 30.0, 2];
         yield 'ftp url' => ['k', 'ftp://example.com', 30.0, 2];

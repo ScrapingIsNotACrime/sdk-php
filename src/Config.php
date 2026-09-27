@@ -32,7 +32,7 @@ final readonly class Config
                 self::API_KEY_ENV,
             ));
         }
-        if ($timeout <= 0) {
+        if (!is_finite($timeout) || $timeout <= 0) {
             throw new \InvalidArgumentException('timeout must be a positive number of seconds.');
         }
         if ($maxRetries < 0) {

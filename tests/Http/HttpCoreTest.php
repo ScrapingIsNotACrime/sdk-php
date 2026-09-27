@@ -63,6 +63,19 @@ final class HttpCoreTest extends TestCase
         }
     }
 
+    public function testNonUtf8BodySnippetIsNotEmpty(): void
+    {
+        $client = new MockClient();
+        $client->addResponse(Fake::json(500, "\xE9rror  page"));
+        try {
+            Fake::core($client, 0)->get(new Route('/x'));
+            self::fail('no exception');
+        } catch (ScrapingIsNotACrimeException $e) {
+            self::assertNotSame('empty response body', $e->getMessage());
+            self::assertStringContainsString('rror', $e->getMessage());
+        }
+    }
+
     public function testTwoxxWithoutEnvelopeIsApiException(): void
     {
         foreach (['<html>proxy</html>', '{"message":"ok"}', '[1,2]', ''] as $body) {
