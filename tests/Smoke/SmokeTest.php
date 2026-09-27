@@ -24,16 +24,28 @@ final class SmokeTest extends TestCase
 
         $client = new Client();
 
-        $client->instagram->profile('instagram');
-        $client->tiktok->profile('tiktok');
-        $client->youtube->videos('youtube');
-        $client->appstore->search('instagram', limit: 1);
-        $client->github->profile('torvalds');
-        $client->hackernews->item(8863);
-        $client->bluesky->profile('bsky.app');
-        $client->twitch->profile('ninja');
-        $client->linktree->profile('linktree');
+        /** @var array<string, \Closure(): mixed> $calls */
+        $calls = [
+            'instagram' => static fn(): mixed => $client->instagram->profile('instagram'),
+            'tiktok' => static fn(): mixed => $client->tiktok->profile('tiktok'),
+            'youtube' => static fn(): mixed => $client->youtube->videos('youtube'),
+            'appstore' => static fn(): mixed => $client->appstore->search('instagram', limit: 1),
+            'github' => static fn(): mixed => $client->github->profile('torvalds'),
+            'hackernews' => static fn(): mixed => $client->hackernews->item(8863),
+            'bluesky' => static fn(): mixed => $client->bluesky->profile('bsky.app'),
+            'twitch' => static fn(): mixed => $client->twitch->profile('ninja'),
+            'linktree' => static fn(): mixed => $client->linktree->profile('linktree'),
+        ];
 
-        self::addToAssertionCount(1);
+        $failures = [];
+        foreach ($calls as $platform => $call) {
+            try {
+                $call();
+            } catch (\Throwable $e) {
+                $failures[] = "$platform: {$e->getMessage()}";
+            }
+        }
+
+        self::assertSame([], $failures);
     }
 }

@@ -68,6 +68,7 @@ final class HttpClientFactoryTest extends TestCase
             }
             usleep(100_000);
         }
+        self::reap($process);
         self::fail('built-in server did not start');
     }
 
